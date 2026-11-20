@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>hair salon ことり | 駅から徒歩3分の小さな美容室</title>
+  <meta name="description" content="一人ひとりの髪質に寄り添う、席数3つの小さな美容室。カット・カラー・髪質改善トリートメントならhair salon ことりへ。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== 基本設定(色やフォントはここでまとめて変更できる) ===== */
+    :root {
+      --color-base: #ffffff;
+      --color-sub: #fdf0f4;
+      --color-text: #4a4046;
+      --color-muted: #857a80;
+      --color-accent: #c9668a;
+      --color-accent-dark: #a94f71;
+      --color-white: #ffffff;
+      /* パステルカラー(模様・カード用) */
+      --pastel-pink: #f9d9e3;
+      --pastel-mint: #d4efe4;
+      --pastel-lavender: #e4ddf5;
+      --pastel-yellow: #fdf1c9;
+      --pastel-blue: #d6e8f7;
+      --font-sans: "Noto Sans JP", sans-serif;
+      --font-serif: "Noto Serif JP", serif;
+      --width-content: 1040px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--color-base);
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      line-height: 1.9;
+      letter-spacing: 0.04em;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: 100%;
+      max-width: var(--width-content);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    section { padding: 96px 0; }
+
+    /* ===== 共通パーツ ===== */
+    /* 薄いピンクの背景(セクションの区切り用) */
+    .bg-soft { background: var(--color-sub); }
+    /* 白いカード */
+    .card {
+      background: var(--color-white);
+      border-radius: 24px;
+      box-shadow: 0 8px 30px rgba(201, 102, 138, 0.10);
+    }
+
+    /* ===== スクロールでふわっと表示 ===== */
+    .fade {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade.is-show { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .fade { opacity: 1; transform: none; transition: none; }
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .section-title .en {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: 0.85rem;
+      letter-spacing: 0.3em;
+      color: var(--color-accent);
+    }
+    .section-title h2 {
+      font-family: var(--font-serif);
+      font-size: 1.75rem;
+      font-weight: 500;
+    }
+
+    /* ===== ボタン ===== */
+    .btn {
+      display: inline-block;
+      padding: 16px 40px;
+      border-radius: 999px;
+      background: var(--color-accent);
+      color: var(--color-white);
+      font-weight: 700;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .btn:hover { background: var(--color-accent-dark); transform: translateY(-2px); }
+
+    /* ===== ヘッダー ===== */
+    .header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 2px 12px rgba(201, 102, 138, 0.08);
+      backdrop-filter: blur(6px);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+    .logo {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+    .logo small {
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--color-muted);
+      margin-right: 6px;
+    }
+    .nav ul { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav a { font-size: 0.9rem; }
+    .nav a:hover { color: var(--color-accent); }
+    .nav .nav-reserve {
+      padding: 8px 20px;
+      border-radius: 999px;
+      background: var(--color-accent);
+      color: var(--color-white);
+    }
+    .nav .nav-reserve:hover { color: var(--color-white); background: var(--color-accent-dark); }
+
+    /* ===== メインビジュアル ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 110px 0 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* 背景の大きな丸(パステルを面で使い、模様は控えめに) */
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+    }
+    .hero::before {
+      width: 560px; height: 560px;
+      top: -200px; left: -180px;
+      background: var(--pastel-pink);
+      opacity: 0.55;
+    }
+    .hero::after {
+      width: 360px; height: 360px;
+      bottom: -140px; right: -100px;
+      background: var(--pastel-lavender);
+      opacity: 0.6;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 0.75fr 1.25fr;
+      gap: 48px;
+      align-items: center;
+      max-width: 1240px;
+    }
+    .hero-catch {
+      font-family: var(--font-serif);
+      font-size: 2.6rem;
+      font-weight: 500;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .hero-lead { color: var(--color-muted); margin-bottom: 40px; }
+    /* 写真まわり:大きな写真+パステルの丸い飾り */
+    .hero-photo-wrap {
+      position: relative;
+      padding: 24px;
+    }
+    .hero-visual {
+      position: relative;
+      z-index: 1;
+      aspect-ratio: 1 / 1;
+      max-height: 78vh;
+      margin-left: auto;
+      border-radius: 50% 50% 32px 32px / 40% 40% 32px 32px;
+      border: 10px solid var(--color-white);
+      box-shadow: 0 16px 40px rgba(201, 102, 138, 0.18);
+      background: linear-gradient(150deg, var(--pastel-pink), var(--pastel-lavender) 50%, var(--pastel-mint));
+      overflow: hidden;
+    }
+    .hero-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 35% center;
+    }
+    .deco {
+      position: absolute;
+      border-radius: 50%;
+    }
+    .deco-1 { width: 140px; height: 140px; top: 0; left: 0; background: var(--pastel-yellow); }
+    .deco-2 { width: 90px; height: 90px; bottom: 10%; left: -10px; background: var(--pastel-blue); z-index: 2; }
+    .deco-3 { width: 60px; height: 60px; top: 12%; right: 0; background: var(--pastel-mint); z-index: 2; }
+
+    /* ===== スタイルギャラリー ===== */
+    .style-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .style-item .photo {
+      aspect-ratio: 3 / 4;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 6px solid var(--color-white);
+    }
+    .style-item .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s;
+    }
+    .style-item:hover .photo img { transform: scale(1.05); }
+    .style-item:nth-child(6n+1) .photo { background: linear-gradient(160deg, var(--pastel-pink), var(--pastel-lavender)); }
+    .style-item:nth-child(6n+2) .photo { background: linear-gradient(160deg, var(--pastel-mint), var(--pastel-blue)); }
+    .style-item:nth-child(6n+3) .photo { background: linear-gradient(160deg, var(--pastel-yellow), var(--pastel-pink)); }
+    .style-item:nth-child(6n+4) .photo { background: linear-gradient(160deg, var(--pastel-lavender), var(--pastel-blue)); }
+    .style-item:nth-child(6n+5) .photo { background: linear-gradient(160deg, var(--pastel-pink), var(--pastel-yellow)); }
+    .style-item:nth-child(6n+6) .photo { background: linear-gradient(160deg, var(--pastel-blue), var(--pastel-mint)); }
+    .style-item .caption { margin-top: 12px; font-size: 0.85rem; }
+    .style-item .caption span { display: block; font-size: 0.75rem; color: var(--color-muted); }
+
+    /* ===== コンセプト ===== */
+    .concept-body {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .concept-body p + p { margin-top: 1.5em; }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 64px;
+    }
+    .feature {
+      border-radius: 24px;
+      padding: 36px 28px;
+      text-align: center;
+    }
+    .feature:nth-child(1) { background: var(--pastel-pink); }
+    .feature:nth-child(2) { background: var(--pastel-mint); }
+    .feature:nth-child(3) { background: var(--pastel-lavender); }
+    .feature-num {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      color: var(--color-accent);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .feature h3 { font-size: 1.05rem; margin-bottom: 12px; }
+    .feature p { font-size: 0.9rem; color: var(--color-muted); }
+
+    /* ===== メニュー ===== */
+    .menu-box {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 32px 40px 40px;
+    }
+    .menu-list {
+      list-style: none;
+    }
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--color-sub);
+    }
+    .menu-item .name { font-weight: 500; font-size: 0.95rem; }
+    .menu-item .desc { display: block; font-size: 0.85rem; color: var(--color-muted); }
+    .menu-item .price { font-family: var(--font-serif); white-space: nowrap; }
+    .menu-item.recommend .name::before {
+      content: "おすすめ";
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 2px 10px;
+      margin-right: 10px;
+      border-radius: 999px;
+      background: var(--color-accent);
+      color: var(--color-white);
+      vertical-align: middle;
+    }
+    .menu-note {
+      margin-top: 24px;
+      font-size: 0.85rem;
+      color: var(--color-muted);
+    }
+
+    /* ===== スタッフ ===== */
+    .staff-card {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 48px;
+      align-items: center;
+      max-width: 840px;
+      margin: 0 auto;
+    }
+    .staff-photo {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: linear-gradient(140deg, var(--pastel-yellow), var(--pastel-pink));
+      border: 10px solid var(--color-white);
+      box-shadow: 0 0 0 4px var(--pastel-mint);
+      overflow: hidden;
+    }
+    .staff-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 72% 30%;
+    }
+    .staff-role { font-size: 0.85rem; color: var(--color-accent); }
+    .staff-name {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+    .staff-name small { font-size: 0.8rem; color: var(--color-muted); margin-left: 12px; }
+
+    /* ===== お客様の声 ===== */
+    .voice-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .voice-item {
+      padding: 32px 28px;
+      font-size: 0.92rem;
+      border-top: 6px solid var(--pastel-pink);
+    }
+    .voice-item:nth-child(2) { border-top-color: var(--pastel-mint); }
+    .voice-item:nth-child(3) { border-top-color: var(--pastel-lavender); }
+    .voice-item .who {
+      margin-top: 16px;
+      font-size: 0.8rem;
+      color: var(--color-muted);
+      text-align: right;
+    }
+
+    /* ===== アクセス ===== */
+    .access-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .access-table { width: 100%; border-collapse: collapse; }
+    .access-table th,
+    .access-table td {
+      padding: 14px 8px;
+      border-bottom: 1px solid var(--color-sub);
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.92rem;
+    }
+    .access-table th { width: 96px; font-weight: 500; color: var(--color-muted); }
+    .access-map {
+      aspect-ratio: 4 / 3;
+      border-radius: 16px;
+      background: var(--color-sub);
+      display: grid;
+      place-items: center;
+      color: var(--color-muted);
+      font-size: 0.9rem;
+    }
+
+    /* ===== 予約導線 ===== */
+    .cta { text-align: center; }
+    .cta-box {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 56px 32px;
+    }
+    .cta .cta-box { background: var(--pastel-pink); box-shadow: none; }
+    .cta h2 {
+      font-family: var(--font-serif);
+      font-size: 1.75rem;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+    .cta p { margin-bottom: 40px; color: var(--color-muted); }
+    .cta p.cta-tel { margin: 24px 0 0; font-size: 0.9rem; }
+
+    /* ===== フッター ===== */
+    .footer {
+      padding: 40px 0;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--color-muted);
+    }
+    .footer .notice { margin-top: 8px; }
+
+    /* ===== スマホ表示(幅768px以下) ===== */
+    @media (max-width: 768px) {
+      section { padding: 72px 0; }
+      .nav li:not(:last-child) { display: none; }
+      .hero-inner { grid-template-columns: 1fr; gap: 16px; }
+      .hero-text { text-align: center; }
+      .hero::before { width: 320px; height: 320px; top: -100px; left: -120px; }
+      .style-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .hero-catch { font-size: 1.7rem; }
+      .hero-photo-wrap { order: -1; padding: 12px; }
+      .hero-visual { margin: 0 auto; }
+      .deco-1 { width: 80px; height: 80px; }
+      .menu-box { padding: 24px 20px 28px; }
+      .features,
+      .voice-list { grid-template-columns: 1fr; }
+      .staff-card { grid-template-columns: 1fr; gap: 32px; text-align: center; }
+      .staff-photo { max-width: 200px; margin: 0 auto; }
+      .access-inner { grid-template-columns: 1fr; }
+      .menu-item { flex-direction: column; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#" class="logo"><small>hair salon</small>ことり</a>
+      <nav class="nav">
+        <ul>
+          <li><a href="#concept">コンセプト</a></li>
+          <li><a href="#style">スタイル</a></li>
+          <li><a href="#menu">メニュー</a></li>
+          <li><a href="#staff">スタッフ</a></li>
+          <li><a href="#access">アクセス</a></li>
+          <li><a href="#reserve" class="nav-reserve">ご予約</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- メインビジュアル -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <h1 class="hero-catch">いつもの毎日が、<br>少しだけ軽くなる髪へ。</h1>
+          <p class="hero-lead">席数3つの小さな美容室だから、<br>最初から最後まで同じスタイリストが担当します。</p>
+          <a href="#reserve" class="btn">初回20%オフで予約する</a>
+        </div>
+        <div class="hero-photo-wrap">
+          <span class="deco deco-1" aria-hidden="true"></span>
+          <div class="hero-visual"><img src="images/hero.jpg" alt="ツヤのある黒髪ロングの女性"></div>
+          <span class="deco deco-2" aria-hidden="true"></span>
+          <span class="deco deco-3" aria-hidden="true"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- コンセプト -->
+    <section id="concept">
+      <div class="container">
+        <div class="section-title">
+          <span class="en">CONCEPT</span>
+          <h2>ことりが大切にしていること</h2>
+        </div>
+        <div class="concept-body">
+          <p>朝のスタイリングに時間をかけられない。<br>サロン帰りの仕上がりが、家では再現できない。</p>
+          <p>そんなお悩みに寄り添い、<br>「自分で扱いやすい髪」をつくることが、ことりのいちばんの目標です。</p>
+        </div>
+        <div class="features">
+          <div class="feature">
+            <div class="feature-num">01</div>
+            <h3>完全マンツーマン</h3>
+            <p>カウンセリングから仕上げまで、担当者が変わることはありません。</p>
+          </div>
+          <div class="feature">
+            <div class="feature-num">02</div>
+            <h3>髪にやさしい薬剤</h3>
+            <p>ダメージを抑えたオーガニック系カラー剤を標準で使用しています。</p>
+          </div>
+          <div class="feature">
+            <div class="feature-num">03</div>
+            <h3>おうちケアの提案</h3>
+            <p>ご自宅での乾かし方やスタイリングのコツまで丁寧にお伝えします。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- スタイルギャラリー -->
+    <section id="style" class="bg-soft">
+      <div class="container">
+        <div class="section-title">
+          <span class="en">STYLE</span>
+          <h2>ヘアスタイル</h2>
+        </div>
+        <div class="style-grid">
+          <div class="style-item"><div class="photo"><img src="images/style-01.jpg" alt="ショートヘアの女性" loading="lazy"></div><p class="caption">すっきりショート<span>カット</span></p></div>
+          <div class="style-item"><div class="photo"><img src="images/style-02.jpg" alt="外ハネボブの女性" loading="lazy"></div><p class="caption">切りっぱなしボブ<span>カット＋カラー</span></p></div>
+          <div class="style-item"><div class="photo"><img src="images/style-03.jpg" alt="ミディアムヘアの女性" loading="lazy"></div><p class="caption">ナチュラルミディアム<span>カット＋髪質改善</span></p></div>
+          <div class="style-item"><div class="photo"><img src="images/style-04.jpg" alt="ウェーブヘアの女性" loading="lazy"></div><p class="caption">ゆるふわウェーブ<span>カット＋パーマ</span></p></div>
+          <div class="style-item"><div class="photo"><img src="images/style-05.jpg" alt="ラベンダーカラーの髪の女性" loading="lazy"></div><p class="caption">ラベンダーピンク<span>カット＋カラー</span></p></div>
+          <div class="style-item"><div class="photo"><img src="images/style-06.jpg" alt="ストレートヘアの女性" loading="lazy"></div><p class="caption">ツヤ髪ストレート<span>髪質改善トリートメント</span></p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- メニュー -->
+    <section id="menu" class="menu">
+      <div class="container">
+        <div class="menu-box card">
+        <div class="section-title">
+          <span class="en">MENU</span>
+          <h2>メニュー・料金</h2>
+        </div>
+        <ul class="menu-list">
+          <li class="menu-item">
+            <span class="name">カット<span class="desc">シャンプー・ブロー込み</span></span>
+            <span class="price">¥5,500</span>
+          </li>
+          <li class="menu-item recommend">
+            <span class="name">カット＋カラー<span class="desc">オーガニックカラー使用</span></span>
+            <span class="price">¥11,000</span>
+          </li>
+          <li class="menu-item recommend">
+            <span class="name">髪質改善トリートメント<span class="desc">うねり・パサつきが気になる方に</span></span>
+            <span class="price">¥8,800</span>
+          </li>
+          <li class="menu-item">
+            <span class="name">カット＋パーマ<span class="desc">デジタルパーマは＋¥2,200</span></span>
+            <span class="price">¥12,100</span>
+          </li>
+          <li class="menu-item">
+            <span class="name">ヘッドスパ(30分)<span class="desc">他メニューとの同時施術がおすすめ</span></span>
+            <span class="price">¥4,400</span>
+          </li>
+        </ul>
+        <p class="menu-note">※表示価格はすべて税込です。ロングヘアの方は別途料金がかかる場合があります。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- スタッフ -->
+    <section id="staff">
+      <div class="container">
+        <div class="section-title">
+          <span class="en">STAFF</span>
+          <h2>スタッフ紹介</h2>
+        </div>
+        <div class="staff-card">
+          <div class="staff-photo"><img src="images/staff.jpg" alt="ハサミを持つスタイリスト" loading="lazy"></div>
+          <div>
+            <p class="staff-role">オーナースタイリスト</p>
+            <p class="staff-name">小鳥遊 みのり<small>Minori Takanashi</small></p>
+            <p>都内のサロンで12年間経験を積んだのち、2022年に「ことり」をオープン。くせ毛や髪のダメージに悩むお客様の担当を得意としています。「また来たい」と思っていただける時間をつくれるよう、毎回のカウンセリングを大切にしています。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- お客様の声 -->
+    <section class="voice bg-soft">
+      <div class="container">
+        <div class="section-title">
+          <span class="en">VOICE</span>
+          <h2>お客様の声</h2>
+        </div>
+        <div class="voice-list">
+          <div class="voice-item card">
+            <p>くせ毛で毎朝30分かけていたのが、髪質改善トリートメントのおかげで10分で済むようになりました。</p>
+            <p class="who">30代・会社員</p>
+          </div>
+          <div class="voice-item card">
+            <p>大きなサロンが苦手でしたが、ここは静かで落ち着けます。最初から最後まで同じ方なので安心です。</p>
+            <p class="who">40代・主婦</p>
+          </div>
+          <div class="voice-item card">
+            <p>家での乾かし方まで教えてもらえて、サロン帰りの仕上がりが長持ちするようになりました。</p>
+            <p class="who">20代・学生</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- アクセス -->
+    <section id="access">
+      <div class="container">
+        <div class="section-title">
+          <span class="en">ACCESS</span>
+          <h2>店舗情報・アクセス</h2>
+        </div>
+        <div class="access-inner">
+          <table class="access-table">
+            <tr><th>店名</th><td>hair salon ことり</td></tr>
+            <tr><th>住所</th><td>〒000-0000<br>○○県○○市○○町1-2-3 ことりビル2F</td></tr>
+            <tr><th>アクセス</th><td>○○駅 東口から徒歩3分</td></tr>
+            <tr><th>営業時間</th><td>平日 10:00〜19:00<br>土日祝 9:00〜18:00</td></tr>
+            <tr><th>定休日</th><td>毎週火曜日・第3水曜日</td></tr>
+            <tr><th>席数</th><td>3席(個室風ブースあり)</td></tr>
+          </table>
+          <div class="access-map">ここに地図(Googleマップ)が入ります</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 予約導線 -->
+    <section id="reserve" class="cta">
+      <div class="container">
+        <div class="cta-box card">
+          <h2>はじめての方は全メニュー20%オフ</h2>
+          <p>Web予約なら24時間受付中。お気軽にご相談ください。</p>
+          <a href="#" class="btn">Webで予約する</a>
+          <p class="cta-tel">お電話でのご予約:000-0000-0000(営業時間内)</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; hair salon ことり</p>
+      <p class="notice">※このサイトはポートフォリオ用に制作した架空のサイトです。実在の店舗・人物とは関係ありません。</p>
+      <p class="notice">写真素材:写真AC / Unsplash</p>
+    </div>
+  </footer>
+
+  <script>
+    // 画面に入った要素をふわっと表示する
+    const targets = document.querySelectorAll(
+      ".section-title, .concept-body, .features, .style-grid, .menu-box, .staff-card, .voice-list, .access-inner, .cta-box"
+    );
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-show");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    targets.forEach((el) => {
+      el.classList.add("fade");
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
